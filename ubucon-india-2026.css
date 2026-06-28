@@ -1,0 +1,94 @@
+/*
+ * UbuCon India 2026 — Indico conference theme (events.canonical.com)
+ * Upload via: event → Management → Layout → "Use custom CSS" → upload this file.
+ *
+ * Imports the canonical themes base (Ubuntu font, grid, header, side-nav, buttons)
+ * by absolute URL, then applies UbuCon-India branding and fixes the broken overview.
+ *
+ * NOTE: the @import url below is a deployed plugin asset. If Canonical redeploys the
+ * plugin the path may change and this upload will silently fall back to stock styling.
+ * Re-check it then (DevTools → Network → the request ending /_default/index.css).
+ */
+
+@import url("https://events.canonical.com/static/plugins/themes_canonical/css/_default/index.css");
+
+/* ---------- Brand ----------
+   The base drives buttons/links/accents from these variables. */
+:root {
+  --brand-primary: #e95420;            /* Ubuntu orange */
+  --brand-background-primary: #e95420;
+}
+
+/* ---------- Header banner ----------
+   Aubergine → orange, Ubuntu's signature sweep (dark on the logo side). */
+.confheader {
+  background: linear-gradient(110deg, #2c001e 0%, #5e2750 42%, #e95420 100%);
+}
+
+.confTitleBox {
+  padding: 80px 20px;
+  border-bottom: 0;
+}
+
+@media screen and (max-width: 1250px) {
+  .confTitleBox {
+    padding: 40px 20px;
+  }
+}
+
+/* ---------- Overview infogrid fix ----------
+   The base's overview.css HIDES the native date/location/chairs/resources icons and
+   fakes text labels via :before with hard-coded 8rem margins. That assumes a markup
+   structure this Indico version no longer uses, so the icons aren't actually hidden
+   and collide with the fake labels (the "malformed icons").
+
+   Undo all three hacks → let Indico's native, version-correct infogrid render,
+   inheriting the Ubuntu font and orange theme from the base. */
+
+/* 1. kill the fake :before text labels */
+.conferenceDetails .infoline.location::before,
+.conferenceDetails .infoline.chairs::before,
+.conferenceDetails .infoline.material-list::before {
+  content: none !important;
+}
+
+/* 2. show the native icons again */
+.conferenceDetails .infoline span.icon-time,
+.conferenceDetails .infoline.location span,
+.conferenceDetails .infoline.chairs span,
+.conferenceDetails .infoline.material-list span.icon-attachment {
+  display: inline-block !important;
+}
+
+/* 3. drop the magic 8rem / 132px left-margins that pushed values into empty gutters */
+.conferenceDetails .infoline.date time,
+.conferenceDetails .infoline.date div.text .timezone,
+.conferenceDetails .infoline.location div.text,
+.conferenceDetails .infoline.chairs .chair_list,
+.conferenceDetails .infoline.material-list .attachments-box {
+  margin-left: 0 !important;
+}
+
+.conferenceDetails .infoline.date div.text span.label {
+  width: auto !important;
+}
+
+/* ---------- Accept / Public-protection buttons → orange ---------- */
+.i-button.accept:not(.label):not(.borderless):not(.text-color),
+div.session-bar .i-button.protection-public:not(.label):not(.borderless):not(.text-color),
+div.session-bar .protection-public.action-button:not(.label):not(.borderless):not(.text-color),
+.accept.action-button:not(.label):not(.borderless):not(.text-color) {
+  background: var(--brand-primary) !important;
+  border-color: var(--brand-primary) !important;
+  border-radius: 2px 0 0 2px;
+  color: #ffffff !important;
+}
+
+.i-button.accept:not(.label):not(.borderless):not(.text-color):hover,
+div.session-bar .i-button.protection-public:not(.label):not(.borderless):not(.text-color):hover,
+div.session-bar .protection-public.action-button:not(.label):not(.borderless):not(.text-color):hover,
+.accept.action-button:not(.label):not(.borderless):not(.text-color):hover {
+  background: #f06a3c !important;
+  border-color: #f06a3c !important;
+  color: #ffffff !important;
+}
