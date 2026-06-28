@@ -1,58 +1,70 @@
 /*
- * UbuCon India 2026 — Indico conference theme (events.canonical.com)
- * Upload via: event → Management → Layout → "Use custom CSS" → upload this file.
- *
- * Imports the canonical themes base (Ubuntu font, grid, header, side-nav, buttons)
- * by absolute URL, then applies UbuCon-India branding and fixes the broken overview.
- *
- * NOTE: the @import url below is a deployed plugin asset. If Canonical redeploys the
- * plugin the path may change and this upload will silently fall back to stock styling.
- * Re-check it then (DevTools → Network → the request ending /_default/index.css).
+ * UbuCon India 2026 — Indico event theme overrides (events.canonical.com)
+ * Upload via: Management → Layout → "Use custom CSS"
  */
 
 @import url("https://events.canonical.com/static/plugins/themes_canonical/css/_default/index.css");
 
-/* ---------- Brand ----------
-   The base drives buttons/links/accents from these variables. */
+/* Brand design tokens */
 :root {
-  --brand-primary: #e95420;            /* Ubuntu orange */
-  --brand-background-primary: #e95420;
+  --brand-primary: #e95420;            /* Ubuntu Orange */
+  --brand-primary-hover: #ff6300;      /* Vibrant Orange */
+  --brand-aubergine-dark: #2c001e;     /* Deep Aubergine */
+  --brand-aubergine-medium: #5e2750;   /* Mid Aubergine */
+  --brand-warm-grey: #aea79f;          /* Ubuntu Warm Grey */
+  --brand-cool-grey: #333333;          /* Dark Text */
+  --brand-black: #111111;              /* Headings */
+  --brand-off-white: #f7f7f7;          /* Form/card backgrounds */
+  --brand-white: #ffffff;              /* Standard White */
+  
+  --brand-background-primary: #e95420; /* Canonical theme primary color override */
+  --color-error: #df382c;              /* Ubuntu Red */
+  
+  --color-focus: #0f7baf;              /* Focus outline accent */
+  --color-focus-glow: rgba(15, 123, 175, 0.4);
+
+  --border-radius-sm: 4px;             /* Softened rounded corners */
+  --transition-smooth: all 0.15s ease-in-out;
 }
 
-/* ---------- Header banner ----------
-   Aubergine → orange, Ubuntu's signature sweep (dark on the logo side). */
+/* Share the same gradient stops between the top bar and banner for a seamless vertical blend */
+.event-page-header,
 .confheader {
-  background: linear-gradient(110deg, #2c001e 0%, #5e2750 42%, #e95420 100%);
+  background: radial-gradient(circle at 80% 20%, rgba(233, 84, 32, 0.15) 0%, transparent 60%), 
+              linear-gradient(110deg, #2c001e 0%, #5e2750 42%, #e95420 100%) !important;
 }
 
-.confTitleBox {
-  padding: 80px 20px;
-  border-bottom: 0;
+/* Ensure session bar links (login, register) are always white and high-contrast */
+#session-bar a {
+  color: var(--brand-white) !important;
 }
 
-@media screen and (max-width: 1250px) {
-  .confTitleBox {
-    padding: 40px 20px;
-  }
+#session-bar a:hover {
+  color: var(--brand-primary-hover) !important;
+  text-decoration: none !important;
 }
 
-/* ---------- Overview infogrid fix ----------
-   The base's overview.css HIDES the native date/location/chairs/resources icons and
-   fakes text labels via :before with hard-coded 8rem margins. That assumes a markup
-   structure this Indico version no longer uses, so the icons aren't actually hidden
-   and collide with the fake labels (the "malformed icons").
+/* Scoped links to event pages to avoid affecting admin/user dashboards */
+#confSectionsBox a, 
+.event-page-header a {
+  color: var(--brand-primary);
+  transition: var(--transition-smooth);
+}
 
-   Undo all three hacks → let Indico's native, version-correct infogrid render,
-   inheriting the Ubuntu font and orange theme from the base. */
+#confSectionsBox a:hover, 
+.event-page-header a:hover {
+  color: var(--brand-primary-hover);
+}
 
-/* 1. kill the fake :before text labels */
+/* Overview details and infogrid fixes */
+/* 1. Kill Canonical's hardcoded :before text labels */
 .conferenceDetails .infoline.location::before,
 .conferenceDetails .infoline.chairs::before,
 .conferenceDetails .infoline.material-list::before {
   content: none !important;
 }
 
-/* 2. show the native icons again */
+/* 2. Restore native icons */
 .conferenceDetails .infoline span.icon-time,
 .conferenceDetails .infoline.location span,
 .conferenceDetails .infoline.chairs span,
@@ -60,7 +72,7 @@
   display: inline-block !important;
 }
 
-/* 3. drop the magic 8rem / 132px left-margins that pushed values into empty gutters */
+/* 3. Reset absolute margins to allow flexible grid layout */
 .conferenceDetails .infoline.date time,
 .conferenceDetails .infoline.date div.text .timezone,
 .conferenceDetails .infoline.location div.text,
@@ -73,14 +85,243 @@
   width: auto !important;
 }
 
-/* ---------- Accept / Public-protection buttons → orange ---------- */
+/* Cohesive metadata dashboard box */
+.conferenceDetails .infogrid {
+  background-color: #faf9f8;
+  border: 1px solid #eae8e6;
+  border-radius: var(--border-radius-sm);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.conferenceDetails .infoline {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px dashed #eae8e6;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.conferenceDetails .infoline:first-child {
+  margin-top: 0;
+}
+
+.conferenceDetails .infoline:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Color overview details icons with Ubuntu orange */
+.conferenceDetails .infoline span.icon-time,
+.conferenceDetails .infoline.location span,
+.conferenceDetails .infoline.chairs span,
+.conferenceDetails .infoline.material-list span.icon-attachment {
+  color: var(--brand-primary) !important;
+  font-size: 1.1rem;
+  margin-right: 0.75rem;
+  margin-top: 2px;
+}
+
+/* Sidebar navigation styled like a modern documentation menu */
+#outer {
+  background-color: var(--brand-white);
+  border: 1px solid #e1e1e1;
+  border-radius: var(--border-radius-sm);
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+#outer li a {
+  font-size: 0.95rem !important;
+  padding: 0.65rem 1.25rem !important;
+  color: #555555 !important;
+  transition: var(--transition-smooth);
+  display: block;
+}
+
+#outer li.selected > a {
+  border-left: 4px solid var(--brand-primary) !important;
+  background-color: var(--brand-off-white) !important;
+  color: var(--brand-primary) !important;
+  font-weight: 500 !important;
+}
+
+#outer li:not(.selected) > a:hover {
+  background-color: var(--brand-off-white) !important;
+  color: var(--brand-primary) !important;
+  text-decoration: none !important;
+}
+
+.navigationToggleBtn {
+  border-color: var(--brand-warm-grey) !important;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.navigationToggleBtn:hover {
+  border-color: var(--brand-primary) !important;
+  color: var(--brand-primary) !important;
+  background-color: var(--brand-off-white) !important;
+}
+
+/* Typography scoped to event/conference content sections */
+#confSectionsBox h1,
+#confSectionsBox h2,
+#confSectionsBox h3,
+#confSectionsBox h4 {
+  font-family: Ubuntu, sans-serif !important;
+  color: var(--brand-black) !important;
+  letter-spacing: -0.015em;
+}
+
+/* Typography scoped to the dark hero banner (styled white for visibility) */
+.confTitleBox,
+.confTitleBox h1,
+.confTitleBox h2,
+.confTitleBox div,
+.confTitleBox span {
+  font-family: Ubuntu, sans-serif !important;
+  color: var(--brand-white) !important;
+  letter-spacing: -0.015em;
+}
+
+.confTitleBox {
+  padding: 90px 20px;
+  border-bottom: 0;
+}
+
+.confTitleBox h1 {
+  font-size: 2.8rem !important;
+  font-weight: 100 !important;
+  line-height: 1.2 !important;
+  margin-bottom: 1rem !important;
+}
+
+.confTitleBox h2 {
+  font-size: 1.15rem !important;
+  font-weight: 300 !important;
+  line-height: 1.5 !important;
+}
+
+/* Editorial line lengths for reading comfort */
+#confSectionsBox p,
+#confSectionsBox .conferenceDetails .description {
+  max-width: 65ch !important;
+  line-height: 1.625rem !important;
+  color: var(--brand-cool-grey) !important;
+}
+
+#confSectionsBox p {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Card containers and section boxes */
+.regform-section,
+.regform-done {
+  border: 1px solid #eae8e6 !important;
+  border-radius: var(--border-radius-sm) !important;
+  background-color: var(--brand-white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.regform-section:hover,
+.regform-done:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+.i-box-header {
+  border-bottom: 1px solid #eeeeee !important;
+  padding: 1.25rem 1.5rem !important;
+}
+
+/* Forms and fields styling */
+textarea,
+select,
+input[type]:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+.ui.form textarea {
+  border: 1px solid var(--brand-warm-grey) !important;
+  border-radius: var(--border-radius-sm) !important;
+  padding: 0.55rem 0.8rem !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* WCAG AA focus visibility (3px outline with offset) */
+textarea:focus,
+select:focus,
+input[type]:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):focus,
+.ui.form textarea:focus {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(233, 84, 32, 0.12) !important;
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 2px !important;
+}
+
+.i-checkbox input:focus,
+.i-radio input:focus {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Error validation styling */
+.ui.form .field.error textarea,
+.ui.form .field.error select,
+.ui.form .field.error input:not([type="submit"]) {
+  border-color: var(--color-error) !important;
+  background-color: #fffaf9 !important;
+}
+
+/* Buttons with press lift animation */
+.ui.primary.button,
+.i-button.highlight:not(.label):not(.borderless):not(.text-color)[type="submit"] {
+  background: var(--brand-primary) !important;
+  border: 1px solid var(--brand-primary) !important;
+  border-radius: var(--border-radius-sm) !important;
+  color: #ffffff !important;
+  font-weight: 400 !important;
+  box-shadow: 0 2px 4px rgba(233, 84, 32, 0.15) !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.ui.primary.button:hover,
+.i-button.highlight:not(.label):not(.borderless):not(.text-color)[type="submit"]:hover {
+  background: var(--brand-primary-hover) !important;
+  border-color: var(--brand-primary-hover) !important;
+  box-shadow: 0 4px 10px rgba(233, 84, 32, 0.25) !important;
+  transform: translateY(-1px) !important;
+  color: #ffffff !important;
+}
+
+.ui.primary.button:active,
+.i-button.highlight:not(.label):not(.borderless):not(.text-color)[type="submit"]:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 1px 2px rgba(233, 84, 32, 0.1) !important;
+}
+
+/* Standard default buttons (excluding event header and session login buttons to preserve transparent backgrounds) */
+.i-button:not(.subtle):not(.event-page-header *):not(#session-bar *),
+.ui.modal .actions .ui.button:not(.highlighted):not(.primary) {
+  border: 1px solid var(--brand-warm-grey) !important;
+  border-radius: var(--border-radius-sm) !important;
+  background-color: var(--brand-white) !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.i-button:not(.subtle):not(.event-page-header *):not(#session-bar *):hover,
+.ui.modal .actions .ui.button:not(.highlighted):not(.primary):hover {
+  background-color: var(--brand-off-white) !important;
+  border-color: var(--brand-cool-grey) !important;
+}
+
+/* Accept / Public-protection buttons override */
 .i-button.accept:not(.label):not(.borderless):not(.text-color),
 div.session-bar .i-button.protection-public:not(.label):not(.borderless):not(.text-color),
 div.session-bar .protection-public.action-button:not(.label):not(.borderless):not(.text-color),
 .accept.action-button:not(.label):not(.borderless):not(.text-color) {
   background: var(--brand-primary) !important;
   border-color: var(--brand-primary) !important;
-  border-radius: 2px 0 0 2px;
+  border-radius: var(--border-radius-sm);
   color: #ffffff !important;
 }
 
@@ -88,7 +329,126 @@ div.session-bar .protection-public.action-button:not(.label):not(.borderless):no
 div.session-bar .i-button.protection-public:not(.label):not(.borderless):not(.text-color):hover,
 div.session-bar .protection-public.action-button:not(.label):not(.borderless):not(.text-color):hover,
 .accept.action-button:not(.label):not(.borderless):not(.text-color):hover {
-  background: #f06a3c !important;
-  border-color: #f06a3c !important;
+  background: var(--brand-primary-hover) !important;
+  border-color: var(--brand-primary-hover) !important;
   color: #ffffff !important;
+}
+
+.i-button:focus,
+.ui.button:focus {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Footer link accenting */
+.footer a {
+  color: var(--brand-primary) !important;
+}
+
+.footer a:hover {
+  color: var(--brand-primary-hover) !important;
+}
+
+/* Responsive layout adjustments */
+@media screen and (max-width: 1250px) {
+  .confTitleBox {
+    padding: 50px 20px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  /* Override registration form hardcoded 13rem margins on tablet screens */
+  .infogrid.condensed .infoline.date .text div:nth-child(2) .datetime,
+  .infogrid.condensed .infoline:not(.date) .text div:nth-child(2) {
+    margin-left: 0 !important;
+    display: block !important;
+    margin-top: 4px;
+  }
+  
+  .infogrid.condensed .infoline .label {
+    position: static !important;
+    display: block !important;
+    font-weight: 500 !important;
+    margin-bottom: 2px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Stack infogrid columns vertically on landscape mobile */
+  .conferenceDetails .infogrid {
+    padding: 1.25rem !important;
+  }
+  
+  .conferenceDetails .infoline {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.4rem !important;
+    border-bottom: 1px dashed #eae8e6 !important;
+    padding-bottom: 0.75rem !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Responsive font sizes */
+  .confTitleBox h1 {
+    font-size: 2.0rem !important;
+  }
+  
+  .confTitleBox h2 {
+    font-size: 1.1rem !important;
+  }
+  
+  .confTitleBox {
+    padding: 40px 15px !important;
+  }
+  
+  .event-page-header .main-action-bar {
+    height: auto !important;
+    padding: 10px !important;
+  }
+  
+  /* Flex wrap toolbar actions on mobile */
+  .conferenceDetails .toolbar, 
+  .conferenceDetails .action-box .toolbar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+  
+  .conferenceDetails .toolbar .i-button, 
+  .conferenceDetails .action-box .toolbar .i-button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navigationToggleBtn {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  #outer li a {
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .confTitleBox h1 {
+    font-size: 1.6rem !important;
+  }
+  
+  #confSectionsBox {
+    padding: 20px 10px !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
