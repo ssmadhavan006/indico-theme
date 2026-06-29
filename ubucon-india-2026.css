@@ -451,3 +451,122 @@ button[type="submit"].disabled {
     scroll-behavior: auto !important;
   }
 }
+
+.i-button:focus,
+.ui.button:focus {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Footer link accenting */
+.footer a {
+  color: var(--brand-primary) !important;
+}
+
+.footer a:hover {
+  color: var(--brand-primary-hover) !important;
+}
+
+/* Responsive layout adjustments */
+@media screen and (max-width: 1250px) {
+  .confTitleBox {
+    padding: 50px 20px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  /* Override registration form hardcoded 13rem margins on tablet screens */
+  .infogrid.condensed .infoline.date .text div:nth-child(2) .datetime,
+  .infogrid.condensed .infoline:not(.date) .text div:nth-child(2) {
+    margin-left: 0 !important;
+    display: block !important;
+    margin-top: 4px;
+  }
+  
+  .infogrid.condensed .infoline .label {
+    position: static !important;
+    display: block !important;
+    font-weight: 500 !important;
+    margin-bottom: 2px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Stack infogrid columns vertically on landscape mobile */
+  .conferenceDetails .infogrid {
+    padding: 1.25rem !important;
+  }
+  
+  .conferenceDetails .infoline {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.4rem !important;
+    border-bottom: 1px dashed #eae8e6 !important;
+    padding-bottom: 0.75rem !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Responsive font sizes */
+  .confTitleBox h1 {
+    font-size: 2.0rem !important;
+  }
+  
+  .confTitleBox h2 {
+    font-size: 1.1rem !important;
+  }
+  
+  .confTitleBox {
+    padding: 40px 15px !important;
+  }
+  
+  .event-page-header .main-action-bar {
+    height: auto !important;
+    padding: 10px !important;
+  }
+  
+  /* Flex wrap toolbar actions on mobile */
+  .conferenceDetails .toolbar, 
+  .conferenceDetails .action-box .toolbar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+  
+  .conferenceDetails .toolbar .i-button, 
+  .conferenceDetails .action-box .toolbar .i-button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navigationToggleBtn {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  #outer li a {
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .confTitleBox h1 {
+    font-size: 1.6rem !important;
+  }
+  
+  #confSectionsBox {
+    padding: 20px 10px !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
