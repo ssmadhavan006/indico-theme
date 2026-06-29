@@ -272,66 +272,65 @@ input[type]:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):focu
   background-color: #fffaf9 !important;
 }
 
-/* Buttons with press lift animation */
-.ui.primary.button,
-.i-button.highlight:not(.label):not(.borderless):not(.text-color)[type="submit"] {
-  background: var(--brand-primary) !important;
-  border: 1px solid var(--brand-primary) !important;
-  border-radius: var(--border-radius-sm) !important;
-  color: #ffffff !important;
-  font-weight: 400 !important;
-  box-shadow: 0 2px 4px rgba(233, 84, 32, 0.15) !important;
-  transition: all 0.15s ease-in-out !important;
-}
-
-.ui.primary.button:hover,
-.i-button.highlight:not(.label):not(.borderless):not(.text-color)[type="submit"]:hover {
-  background: var(--brand-primary-hover) !important;
-  border-color: var(--brand-primary-hover) !important;
-  box-shadow: 0 4px 10px rgba(233, 84, 32, 0.25) !important;
-  transform: translateY(-1px) !important;
-  color: #ffffff !important;
-}
-
-.ui.primary.button:active,
-.i-button.highlight:not(.label):not(.borderless):not(.text-color)[type="submit"]:active {
-  transform: translateY(1px) !important;
-  box-shadow: 0 1px 2px rgba(233, 84, 32, 0.1) !important;
-}
-
-/* Standard default buttons (excluding event header and session login buttons to preserve transparent backgrounds) */
+/* Standard clean button overrides (making standard, primary, accept, and submit buttons consistent with white backgrounds and dark text) */
 .i-button:not(.subtle):not(.event-page-header *):not(#session-bar *),
-.ui.modal .actions .ui.button:not(.highlighted):not(.primary) {
+.ui.primary.button,
+.ui.button.primary,
+.ui.button.highlight,
+.i-button.highlight,
+.i-button.primary,
+.i-button.accept,
+.accept.action-button,
+.ui.modal .actions .ui.button,
+input[type="submit"],
+button[type="submit"] {
+  font-family: Ubuntu, sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1em !important;
+  padding: 0.78571429em 1.5em !important;
+  height: auto !important;
+  min-height: 1em !important;
   border: 1px solid var(--brand-warm-grey) !important;
   border-radius: var(--border-radius-sm) !important;
   background-color: var(--brand-white) !important;
+  color: var(--brand-black) !important;
+  box-shadow: none !important;
   transition: all 0.15s ease-in-out !important;
 }
 
 .i-button:not(.subtle):not(.event-page-header *):not(#session-bar *):hover,
-.ui.modal .actions .ui.button:not(.highlighted):not(.primary):hover {
+.ui.primary.button:hover,
+.ui.button.primary:hover,
+.ui.button.highlight:hover,
+.i-button.highlight:hover,
+.i-button.primary:hover,
+.i-button.accept:hover,
+.accept.action-button:hover,
+.ui.modal .actions .ui.button:hover,
+input[type="submit"]:hover,
+button[type="submit"]:hover {
   background-color: var(--brand-off-white) !important;
   border-color: var(--brand-cool-grey) !important;
+  color: var(--brand-black) !important;
 }
 
-/* Accept / Public-protection buttons override */
-.i-button.accept:not(.label):not(.borderless):not(.text-color),
-div.session-bar .i-button.protection-public:not(.label):not(.borderless):not(.text-color),
-div.session-bar .protection-public.action-button:not(.label):not(.borderless):not(.text-color),
-.accept.action-button:not(.label):not(.borderless):not(.text-color) {
-  background: var(--brand-primary) !important;
-  border-color: var(--brand-primary) !important;
-  border-radius: var(--border-radius-sm);
-  color: #ffffff !important;
-}
-
-.i-button.accept:not(.label):not(.borderless):not(.text-color):hover,
-div.session-bar .i-button.protection-public:not(.label):not(.borderless):not(.text-color):hover,
-div.session-bar .protection-public.action-button:not(.label):not(.borderless):not(.text-color):hover,
-.accept.action-button:not(.label):not(.borderless):not(.text-color):hover {
-  background: var(--brand-primary-hover) !important;
-  border-color: var(--brand-primary-hover) !important;
-  color: #ffffff !important;
+/* Unified disabled states for all buttons to keep size/styling matching while showing disabled status */
+.ui.primary.button:disabled,
+.ui.primary.button.disabled,
+.ui.button:disabled,
+.ui.button.disabled,
+.i-button:disabled,
+.i-button.disabled,
+input[type="submit"]:disabled,
+input[type="submit"].disabled,
+button[type="submit"]:disabled,
+button[type="submit"].disabled {
+  background-color: var(--brand-white) !important;
+  border-color: var(--brand-warm-grey) !important;
+  color: var(--brand-cool-grey) !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
 }
 
 .i-button:focus,
